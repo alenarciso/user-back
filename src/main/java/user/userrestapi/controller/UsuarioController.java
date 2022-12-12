@@ -1,12 +1,10 @@
 package user.userrestapi.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import user.userrestapi.dto.FilterDTO;
 import user.userrestapi.dto.UsuarioDTO;
 import user.userrestapi.service.UsuarioService;
-
 import java.util.List;
 
 @CrossOrigin("*")
@@ -16,11 +14,6 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService service;
-
-    @GetMapping("/all")
-    public List<UsuarioDTO> getAll(){
-        return service.findAll();
-    }
 
     @GetMapping("/{id}")
     public UsuarioDTO getById(@PathVariable(value = "id") long id){
@@ -37,7 +30,7 @@ public class UsuarioController {
         service.deleteById(id);
     }
 
-    @GetMapping("/filter")
+    @PostMapping("/filter")
     public List<UsuarioDTO> filter(@RequestBody FilterDTO filter){
         return service.filter(filter);
     }

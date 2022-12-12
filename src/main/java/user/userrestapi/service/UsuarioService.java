@@ -33,11 +33,6 @@ public class UsuarioService {
         return dto;
     }
 
-    public List<UsuarioDTO> findAll(){
-        List<Usuario> users = repository.findAll();
-        return convertToListDTO(users);
-    }
-
     public List<UsuarioDTO> filter(FilterDTO filterDTO){
         List<Usuario> users = repository.filter(filterDTO.getUserName(), filterDTO.getName(), filterDTO.getEmail());
         return convertToListDTO(users);

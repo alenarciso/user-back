@@ -13,9 +13,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findById(@Param("idUsuario") long idUsuario);
 
     @Query("SELECT usuario FROM Usuario AS usuario "
-            + " WHERE (:userName IS NULL OR usuario.userName = :userName) AND " +
-            "(:name IS NULL OR usuario.name = :name) AND " +
-            "(:email IS NULL OR usuario.email = :email) ")
+            + " WHERE (:userName IS NULL OR usuario.userName ilike %:userName%) AND " +
+            "(:name IS NULL OR usuario.name ilike %:name%) AND " +
+            "(:email IS NULL OR usuario.email ilike %:email%) ")
 
     List<Usuario> filter(@Param("userName") String userName,
                          @Param("name") String name,
