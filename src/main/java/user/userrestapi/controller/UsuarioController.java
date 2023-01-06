@@ -1,10 +1,13 @@
 package user.userrestapi.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import user.userrestapi.dto.FilterDTO;
 import user.userrestapi.dto.UsuarioDTO;
+import user.userrestapi.exception.ApiException;
 import user.userrestapi.service.UsuarioService;
+
 import java.util.List;
 
 @CrossOrigin("*")
@@ -21,7 +24,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/save")
-    public void salvar (@RequestBody UsuarioDTO usuario){
+    public void salvar (@RequestBody @Valid UsuarioDTO usuario){
+       //throw new ApiException("Mensagem desejada aqui");
         service.save(usuario);
     }
 
