@@ -14,6 +14,9 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
 
+     /*
+        Validação de campos obrigatórios
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiErrors handleValidationErros(MethodArgumentNotValidException  ex){
@@ -25,9 +28,23 @@ public class ApplicationControllerAdvice {
         return new ApiErrors(messages);
     }
 
+    /*
+       Lançamento de excessão atraves do throws
+       EX: throw new ApiException("Mensagem");
+    */
     @ExceptionHandler(ApiException.class)
     public final ResponseEntity<ApiErrors> handleCustomException(Exception ex, WebRequest request){
         ApiErrors apiErrors = new ApiErrors(ex.getMessage());
+        return new ResponseEntity<>(apiErrors, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /*
+       Tratamento de campos com unicidade
+    */
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<ApiErrors> handleUniqueException(Exception ex, WebRequest request){
+        String message = ex.getCause().getCause().getLocalizedMessage();
+        ApiErrors apiErrors = new ApiErrors(FormatException.formatUniqueException(message));
         return new ResponseEntity<>(apiErrors, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
