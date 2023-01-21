@@ -11,6 +11,7 @@ import user.userrestapi.repository.UsuarioRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -34,8 +35,7 @@ public class UsuarioService {
     }
 
     public UsuarioDTO findById(long id){
-        UsuarioDTO dto = modelMapper.map(repository.findById(id), UsuarioDTO.class);
-        return dto;
+        return modelMapper.map(repository.findById(id), UsuarioDTO.class);
     }
 
     public List<UsuarioDTO> filter(FilterDTO filterDTO){
@@ -45,11 +45,7 @@ public class UsuarioService {
 
     private List<UsuarioDTO> convertToListDTO(List<Usuario> users){
         List<UsuarioDTO> listDTO = new ArrayList<>();
-        if(users != null){
-            users.forEach(user -> {
-                listDTO.add(modelMapper.map(user, UsuarioDTO.class));
-            });
-        }
+        users.stream().map(user -> listDTO.add(modelMapper.map(user, UsuarioDTO.class))).collect(Collectors.toList());
         return listDTO;
     }
 }
