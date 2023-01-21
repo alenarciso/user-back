@@ -7,7 +7,6 @@ import user.userrestapi.dto.FilterDTO;
 import user.userrestapi.dto.UsuarioDTO;
 import user.userrestapi.entity.Usuario;
 import user.userrestapi.repository.UsuarioRepository;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,10 +20,10 @@ public class UsuarioService {
     private ModelMapper modelMapper;
 
     public void save (UsuarioDTO usuarioDTO){
-        Usuario usuario = modelMapper.map(usuarioDTO, Usuario.class);
         if(usuarioDTO.getId() == null){
-            usuario.setRegisterDate(LocalDateTime.now());
+            usuarioDTO.setRegisterDate(LocalDateTime.now());
         }
+        Usuario usuario = modelMapper.map(usuarioDTO, Usuario.class);
         repository.save(usuario);
     }
 

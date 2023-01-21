@@ -1,6 +1,10 @@
 package user.userrestapi.exception;
 
-public class FormatException {
+public class FormatExceptions {
+
+    private FormatExceptions() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static String formatUniqueException(String message){
         String detail = null;

@@ -1,5 +1,6 @@
 package user.userrestapi.exception;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ApplicationControllerAdvice {
@@ -23,14 +23,13 @@ public class ApplicationControllerAdvice {
         BindingResult bindingResult = ex.getBindingResult();
         List<String> messages = bindingResult.getAllErrors()
                 .stream()
-                .map(objectError -> objectError.getDefaultMessage())
-                .collect(Collectors.toList());
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .toList();
         return new ApiErrors(messages);
     }
 
     /*
        Lançamento de excessão atraves do throws
-       EX: throw new ApiException("Mensagem");
     */
     @ExceptionHandler(ApiException.class)
     public final ResponseEntity<ApiErrors> handleCustomException(Exception ex, WebRequest request){
@@ -44,7 +43,7 @@ public class ApplicationControllerAdvice {
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ApiErrors> handleUniqueException(Exception ex, WebRequest request){
         String message = ex.getCause().getCause().getLocalizedMessage();
-        ApiErrors apiErrors = new ApiErrors(FormatException.formatUniqueException(message));
+        ApiErrors apiErrors = new ApiErrors(FormatExceptions.formatUniqueException(message));
         return new ResponseEntity<>(apiErrors, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
