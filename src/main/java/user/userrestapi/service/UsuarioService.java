@@ -34,8 +34,7 @@ public class UsuarioService {
     }
 
     public UsuarioDTO findById(long id){
-        UsuarioDTO dto = modelMapper.map(repository.findById(id), UsuarioDTO.class);
-        return dto;
+        return modelMapper.map(repository.findById(id), UsuarioDTO.class);
     }
 
     public List<UsuarioDTO> filter(FilterDTO filterDTO){
