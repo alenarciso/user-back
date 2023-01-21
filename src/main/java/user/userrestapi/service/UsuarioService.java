@@ -9,9 +9,7 @@ import user.userrestapi.entity.Usuario;
 import user.userrestapi.repository.UsuarioRepository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -44,8 +42,6 @@ public class UsuarioService {
     }
 
     private List<UsuarioDTO> convertToListDTO(List<Usuario> users){
-        List<UsuarioDTO> listDTO = new ArrayList<>();
-        users.stream().map(user -> listDTO.add(modelMapper.map(user, UsuarioDTO.class))).collect(Collectors.toList());
-        return listDTO;
+        return users.stream().map(user -> modelMapper.map(user, UsuarioDTO.class)).toList();
     }
 }
